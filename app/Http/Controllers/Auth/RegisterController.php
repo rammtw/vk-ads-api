@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
-use App\UserSocialService;
+use App\Services\UserSocialService;
 use ATehnix\VkClient\Auth;
-use ATehnix\VkClient\Client;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -32,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -79,18 +78,12 @@ class RegisterController extends Controller
         return Socialite::driver('vkontakte')->scopes(['ads'])->redirect();
     }
 
-    public function socialAuthCallback(UserSocialService $service, Auth $auth)
+    public function socialAuthCallback(UserSocialService $service)
     {
-        if (Request::exists('code')) {
+        $user = $service->createOrGetUser(Socialite::driver('vkontakte')->user());
 
-            $api = new Client;
+        \Auth::login($user);
 
-            $response = $api->request('users.get', [], $auth->getToken(Request::get('code')));
-
-            $user = $service->createOrGetUser($driver, $provider);
-            \Auth::login($user, true);
-
-            return redirect()->intended('/');
-        }
+        return redirect('/');
     }
 }

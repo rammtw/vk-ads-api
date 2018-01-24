@@ -27,24 +27,4 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static function createBySocialProvider($providerUser, $providerName)
-    {
-        if(isset($providerUser->user['first_name']) || isset($providerUser->user['last_name'])) {
-            $firstName = $providerUser->user['first_name'];
-            $lastName = $providerUser->user['last_name'];
-        } else {
-            $fullName = explode(' ', $providerUser->getName());
-            $firstName = $fullName[0];
-            $lastName = $fullName[1];
-        }
-
-        $email = UserSocialService::getMail($providerUser);
-
-        return self::create([
-            'email' => $email,
-            'name' => $firstName,
-            'last_name' => $lastName,
-            'password' => bcrypt(Carbon::now())
-        ]);
-    }
 }
