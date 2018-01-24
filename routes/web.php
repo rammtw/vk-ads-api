@@ -21,3 +21,7 @@ Route::get('social/callback/vk', 'Auth\RegisterController@socialAuthCallback');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/cab', 'Ads\CabController@index')->name('cab.index');
+Route::get('/cab/{id}', 'Ads\CabController@show')->name('cab.show');
+Route::get('/ad/{id}', 'Ads\CabController@adShow')->name('ad.show');

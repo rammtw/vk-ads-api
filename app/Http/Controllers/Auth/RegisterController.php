@@ -78,12 +78,12 @@ class RegisterController extends Controller
         return Socialite::driver('vkontakte')->scopes(['ads'])->redirect();
     }
 
-    public function socialAuthCallback(UserSocialService $service)
+    public function socialAuthCallback(UserSocialService $service, Auth $auth)
     {
         $user = $service->createOrGetUser(Socialite::driver('vkontakte')->user());
 
         \Auth::login($user);
 
-        return redirect('/');
+        return redirect('/cab');
     }
 }

@@ -9,7 +9,7 @@ class UserSocial extends Model
 {
     protected $table = 'user_social';
 
-    protected $fillable = ['user_id', 'provider_user_id', 'provider'];
+    protected $fillable = ['user_id', 'provider_user_id', 'provider', 'access_token'];
 
     public function user()
     {
