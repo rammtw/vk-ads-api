@@ -15,9 +15,10 @@ class CreateAdsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->string('id');
+            $table->string('account_id');
             $table->string('campaign_id');
-            $table->enum('status', [0, 1, 2]);
-            $table->enum('approved', [0, 1, 2, 3]);
+            $table->char('status');
+            $table->char('approved');
             $table->string('create_time');
             $table->string('update_time');
             $table->string('day_limit');

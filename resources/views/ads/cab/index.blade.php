@@ -29,11 +29,11 @@
                             <tbody>
                                 @foreach($cabs as $cab)
                                     <tr>
-                                        <th scope="row"><a href="{{ route('cab.show', $cab['account_id']) }}">{{$cab['account_id']}}</a></th>
-                                        <td>{{$cab['account_type'] === 'general' ? 'Обычный': 'Агентский'}}</td>
-                                        <td>{{$cab['account_status'] === 1 ? 'Активен' : 'Неактивен'}}</td>
-                                        <td>{{$cab['account_name']}}</td>
-                                        <td>{{$cab['access_role']}}</td>
+                                        <th scope="row"><a href="{{ route('cab.show', $cab->id) }}">{{$cab->id}}</a></th>
+                                        <td>{{$cab->type === 'general' ? 'Обычный': 'Агентский'}}</td>
+                                        <td>{{$cab->status == 1 ? 'Активен' : 'Неактивен'}}</td>
+                                        <td>{{$cab->name}}</td>
+                                        <td>{{$cab->role}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

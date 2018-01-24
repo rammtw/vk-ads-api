@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Account;
+use App\Models\Ad;
 use App\Models\UserSocial;
 use App\User;
 use ATehnix\VkClient\Client;
@@ -42,17 +43,16 @@ class UserSocialService
             $account->user()->associate($user);
             $account->save();
 
-            $this->seedAccounts();
-            $this->seedAds('1603914592');
+            $this->seedAccounts($providerUser->token);
 
             return $user;
         }
     }
 
-    protected function seedAccounts()
+    protected function seedAccounts($token)
     {
         $api = new Client;
-        $api->setDefaultToken(auth()->user()->social->access_token);
+        $api->setDefaultToken($token);
 
         $response = $api->request('ads.getAccounts');
 
@@ -62,22 +62,26 @@ class UserSocialService
                 'type' => $account['account_type'],
                 'status' => $account['account_status'],
                 'name' => $account['account_name'],
-                'role' => $account['account_role'],
+                'role' => $account['access_role'],
             ]);
+
+            if($account['account_type'] === 'general'){
+                $this->seedAds($token, $account['account_id']);
+            }
         }
     }
 
-    protected function seedAds($id)
+    protected function seedAds($token, $id)
     {
         $api = new Client;
-        $api->setDefaultToken(auth()->user()->social->access_token);
+        $api->setDefaultToken($token);
 
         $response = $api->request('ads.getAds', [
             'account_id' => $id
         ]);
 
         foreach ($response['response'] as $ad) {
-            Account::forceCreate($ad);
+            Ad::forceCreate(array_merge($ad, ['account_id' => $id]));
         }
     }
 }

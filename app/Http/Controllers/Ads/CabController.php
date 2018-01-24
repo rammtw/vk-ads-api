@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Ads;
 
+use App\Models\Account;
+use App\Models\Ad;
 use ATehnix\VkClient\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,26 +20,20 @@ class CabController extends Controller
 
     public function index()
     {
-        $this->api->setDefaultToken(auth()->user()->social->access_token);
+        $cabs = Account::all();
 
-        $response = $this->api->request('ads.getAccounts');
-
-        return view('ads.cab.index', ['cabs' => $response['response']]);
+        return view('ads.cab.index', compact('cabs'));
     }
 
-    public function show($id)
+    public function show(Account $account)
     {
-        $this->api->setDefaultToken(auth()->user()->social->access_token);
+        $ads = $account->ads;
 
-        $response = $this->api->request('ads.getAds', [
-            'account_id' => $id
-        ]);
-
-        return view('ads.cab.show', ['ads' => $response['response']]);
+        return view('ads.cab.show', compact('ads', 'account'));
     }
 
-    public function adShow()
+    public function adShow(Account $account, Ad $ad)
     {
-
+        return view('ads.cab.ad_show', compact('ad', 'account'));
     }
 }

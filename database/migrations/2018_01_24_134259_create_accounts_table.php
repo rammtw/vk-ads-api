@@ -16,7 +16,7 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->string('id');
             $table->enum('type', ['general', 'agency']);
-            $table->enum('status', [0, 1]);
+            $table->char('status');
             $table->string('name');
             $table->string('role');
             $table->timestamps();

@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><a href="/cab">К списку кабинетов</a> | {{ $account->name }}</div>
+                    <div class="panel-heading"><a href="{{ route('cab.show', $account->id) }}">К списку кампаний</a> | {{ $ad->name }}</div>
 
                     <div class="panel-body">
                         <table class="table">
@@ -24,14 +24,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($ads as $ad)
-                                <tr>
-                                    <th scope="row"><a href="{{ route('ad.show', ['account' => $account->id , 'ad' => $ad->id]) }}">{{$ad->id}}</a></th>
-                                    <td>{{$ad->name}}</td>
-                                </tr>
-                            @endforeach
+                            <tr>
+                                <th scope="row">{{$ad->id}}</th>
+                                <td>{{$ad->name}}</td>
+                            </tr>
                             </tbody>
                         </table>
+                        <h3>{{$ad->name}}</h3>
+                        <p>Cтатус объявления: {{$ad->status}}</p>
+                        <p>Дневной лимит: {{$ad->day_limit}}</p>
+                        <p>Лимит объявления: {{$ad->all_limit}}</p>
+                        <p>Цена за 1000 показов: {{$ad->cpm}} руб.</p>
+                        <p>Ограничение показов: {{$ad->impressions_limited}}</p>
                     </div>
                 </div>
             </div>

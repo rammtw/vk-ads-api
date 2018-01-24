@@ -23,5 +23,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/cab', 'Ads\CabController@index')->name('cab.index');
-Route::get('/cab/{id}', 'Ads\CabController@show')->name('cab.show');
-Route::get('/ad/{id}', 'Ads\CabController@adShow')->name('ad.show');
+Route::get('/cab/{account}', 'Ads\CabController@show')->name('cab.show');
+Route::get('cab/{account}/ad/{ad}', 'Ads\CabController@adShow')->name('ad.show');
